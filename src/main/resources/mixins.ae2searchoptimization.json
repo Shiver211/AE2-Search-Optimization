@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "package": "com.shiver.ae2searchoptimization.mixin",
+  "refmap": "mixins.ae2searchoptimization.refmap.json",
+  "target": "@env(DEFAULT)",
+  "minVersion": "0.8.5",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [],
+  "server": [],
+  "client": [
+    "MixinGuiMEMonitorable",
+    "MixinItemRepo"
+  ]
+}

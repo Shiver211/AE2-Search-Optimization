@@ -1,6 +1,11 @@
 apply from: 'gradle/scripts/helpers.gradle'
 
 repositories {
+    maven {
+        name 'GTCEu Maven'
+        url 'https://maven.gtceu.com'
+    }
+
     // Other repositories described by default:
     // CleanroomMC: https://maven.cleanroommc.com
     exclusiveContent {
@@ -34,6 +39,11 @@ configurations {
 }
 
 dependencies {
+    // AE2UEL's MCP development variant is selected by its Gradle module metadata.
+    implementation('appeng:ae2-uel:v0.56.7') {
+        transitive = false
+    }
+
     // Include StripLatestForgeRequirements by default for the dev env, saves everyone a hassle
     runtimeOnly 'com.cleanroommc:strip-latest-forge-requirements:1.0'
     // Include OSXNarratorBlocker by default for the dev env, for M1+ Macs
