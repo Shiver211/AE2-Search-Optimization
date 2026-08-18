@@ -20,6 +20,7 @@ public abstract class MixinAEBaseGuiRecentSearch {
 
     @Inject(
             method = "drawScreen",
+            remap = true,
             at = @At(
                     value = "INVOKE",
                     target = "Lappeng/client/gui/AEBaseGui;renderHoveredToolTip(II)V",

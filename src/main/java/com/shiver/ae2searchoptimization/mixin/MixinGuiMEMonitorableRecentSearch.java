@@ -47,7 +47,7 @@ public abstract class MixinGuiMEMonitorableRecentSearch implements RecentSearchS
     @Unique
     private RecentSearchSettingsButton ae2searchoptimization$settingsButton;
 
-    @Inject(method = "initGui", at = @At("TAIL"))
+    @Inject(method = "initGui", at = @At("TAIL"), remap = true)
     private void ae2searchoptimization$addSettingsButton(final CallbackInfo callbackInfo) {
         if (ae2searchoptimization$settingsButton == null) {
             ae2searchoptimization$settingsButton = new RecentSearchSettingsButton(
@@ -63,7 +63,7 @@ public abstract class MixinGuiMEMonitorableRecentSearch implements RecentSearchS
         }
     }
 
-    @Inject(method = "actionPerformed", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "actionPerformed", at = @At("HEAD"), cancellable = true, remap = true)
     private void ae2searchoptimization$openSettings(final GuiButton button, final CallbackInfo callbackInfo) {
         if (button != ae2searchoptimization$settingsButton) {
             return;
@@ -77,7 +77,7 @@ public abstract class MixinGuiMEMonitorableRecentSearch implements RecentSearchS
         callbackInfo.cancel();
     }
 
-    @Inject(method = "mouseClicked", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "mouseClicked", at = @At("HEAD"), cancellable = true, remap = true)
     private void ae2searchoptimization$handleMouse(
             final int mouseX,
             final int mouseY,
@@ -119,7 +119,7 @@ public abstract class MixinGuiMEMonitorableRecentSearch implements RecentSearchS
         }
     }
 
-    @Inject(method = "keyTyped", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "keyTyped", at = @At("HEAD"), cancellable = true, remap = true)
     private void ae2searchoptimization$handleKeyboard(
             final char character,
             final int keyCode,
@@ -178,7 +178,7 @@ public abstract class MixinGuiMEMonitorableRecentSearch implements RecentSearchS
         RecentSearchKeyboardNavigation.clear(searchField);
     }
 
-    @Inject(method = "onGuiClosed", at = @At("HEAD"))
+    @Inject(method = "onGuiClosed", at = @At("HEAD"), remap = true)
     private void ae2searchoptimization$recordOnClose(final CallbackInfo callbackInfo) {
         RecentSearchKeyboardNavigation.clear(searchField);
         ae2searchoptimization$recordCurrentSearch();
