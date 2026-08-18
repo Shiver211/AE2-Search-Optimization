@@ -12,3 +12,7 @@ ae2searchoptimization.recent_search.button.apply_off=点击：仅填入
 ae2searchoptimization.recent_search.button.sync_external_on=JEI 同步：开
 ae2searchoptimization.recent_search.button.sync_external_off=JEI 同步：关
 ae2searchoptimization.recent_search.button.clear=清空
+ae2searchoptimization.recent_search.tooltip.clear=清空历史记录
+ae2searchoptimization.recent_search.tooltip.favorite=收藏
+ae2searchoptimization.recent_search.tooltip.unfavorite=取消收藏
+ae2searchoptimization.recent_search.tooltip.delete=删除记录

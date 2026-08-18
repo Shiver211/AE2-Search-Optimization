@@ -194,6 +194,20 @@ public abstract class MixinGuiMEMonitorableRecentSearch implements RecentSearchS
         }
     }
 
+    @Override
+    public int getRecentSearchSettingsButtonX() {
+        return ae2searchoptimization$settingsButton != null
+                ? ae2searchoptimization$settingsButton.x
+                : ae2searchoptimization$guiLeft() - 18;
+    }
+
+    @Override
+    public int getRecentSearchSettingsButtonY() {
+        return ae2searchoptimization$settingsButton != null
+                ? ae2searchoptimization$settingsButton.y
+                : ae2searchoptimization$settingsButtonY();
+    }
+
     @Unique
     private int ae2searchoptimization$settingsButtonY() {
         final int left = ae2searchoptimization$guiLeft();

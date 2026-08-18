@@ -13,4 +13,8 @@ public interface RecentSearchScreenAccess {
     boolean isRecentSearchSettingsOpen();
 
     void setRecentSearchSettingsOpen(boolean open);
+
+    int getRecentSearchSettingsButtonX();
+
+    int getRecentSearchSettingsButtonY();
 }

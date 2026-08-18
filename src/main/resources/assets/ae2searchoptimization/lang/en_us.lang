@@ -12,3 +12,7 @@ ae2searchoptimization.recent_search.button.apply_off=Click: Fill
 ae2searchoptimization.recent_search.button.sync_external_on=JEI Sync: On
 ae2searchoptimization.recent_search.button.sync_external_off=JEI Sync: Off
 ae2searchoptimization.recent_search.button.clear=Clear
+ae2searchoptimization.recent_search.tooltip.clear=Clear Search History
+ae2searchoptimization.recent_search.tooltip.favorite=Favorite
+ae2searchoptimization.recent_search.tooltip.unfavorite=Unfavorite
+ae2searchoptimization.recent_search.tooltip.delete=Delete Entry

@@ -13,23 +13,28 @@ import net.minecraft.util.text.translation.I18n;
 /** In-place settings page so the AE2 container remains open. */
 public final class RecentSearchSettingsOverlay {
 
-    private static final int PANEL_WIDTH = 240;
-    private static final int PANEL_HEIGHT = 240;
-    private static final int ROW_X = 20;
-    private static final int ROW_WIDTH = 200;
-    private static final int ROW_HEIGHT = 20;
-    private static final int ROW_GAP = 4;
-    private static final int FIRST_ROW_OFFSET = 34;
-    private static final int BACK_ROW = 7;
+    private static final int PANEL_WIDTH = 140;
+    private static final int PANEL_HEIGHT = 114;
+    private static final int ROW_X = 10;
+    private static final int ROW_WIDTH = 120;
+    private static final int ROW_HEIGHT = 14;
+    private static final int ROW_GAP = 3;
+    private static final int FIRST_ROW_OFFSET = 22;
+    private static final int BACK_ROW = 4;
 
-    private static final int PANEL_BACKGROUND = 0xFF2C2C36;
-    private static final int PANEL_INNER_BACKGROUND = 0xFF3C3C4A;
-    private static final int BUTTON_BACKGROUND = 0xFF5B5B6B;
-    private static final int BUTTON_HOVER = 0xFF77778A;
-    private static final int BUTTON_BORDER_LIGHT = 0xFF9C9CAD;
-    private static final int BUTTON_BORDER_DARK = 0xFF24242D;
-    private static final int TITLE_COLOR = 0xFFFFFFFF;
-    private static final int TEXT_COLOR = 0xFFE8E8EE;
+    private static final int PANEL_BACKGROUND = 0xFFE1E4F0;
+    private static final int PANEL_INNER_BACKGROUND = 0xFFD2D6E6;
+    private static final int HIGHLIGHT_BORDER_COLOR = 0xFFFFFFFF;
+    private static final int SHADOW_BORDER_COLOR = 0xFF6F7488;
+    private static final int GROUP_SEPARATOR_COLOR = 0xFF9298AC;
+
+    private static final int BUTTON_BACKGROUND = 0xFFDCE1EE;
+    private static final int BUTTON_HOVER = 0xFFF0F3F9;
+    private static final int BUTTON_BORDER_LIGHT = 0xFFFFFFFF;
+    private static final int BUTTON_BORDER_DARK = 0xFF7A7F93;
+    private static final int TITLE_COLOR = 0xFF303040;
+    private static final int TEXT_COLOR = 0xFF303040;
+    private static final int TEXT_HOVER_COLOR = 0xFF101020;
 
     private RecentSearchSettingsOverlay() {
     }
@@ -40,21 +45,26 @@ public final class RecentSearchSettingsOverlay {
             final int mouseX,
             final int mouseY) {
         final FontRenderer font = Minecraft.getMinecraft().fontRenderer;
-        final int panelX = (screen.width - PANEL_WIDTH) / 2;
-        final int panelY = (screen.height - PANEL_HEIGHT) / 2;
+        final int panelX = panelX(screen, access);
+        final int panelY = panelY(screen, access);
 
         GlStateManager.pushMatrix();
         GlStateManager.disableDepth();
         GlStateManager.enableBlend();
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 
-        Gui.drawRect(panelX - 4, panelY - 4, panelX + PANEL_WIDTH + 4, panelY + PANEL_HEIGHT + 4,
-                0x99000000);
         Gui.drawRect(panelX, panelY, panelX + PANEL_WIDTH, panelY + PANEL_HEIGHT, PANEL_BACKGROUND);
-        Gui.drawRect(panelX + 2, panelY + 2, panelX + PANEL_WIDTH - 2, panelY + PANEL_HEIGHT - 2,
+        Gui.drawRect(panelX + 1, panelY + 1, panelX + PANEL_WIDTH - 1, panelY + PANEL_HEIGHT - 1,
                 PANEL_INNER_BACKGROUND);
-        font.drawString(I18n.translateToLocal("ae2searchoptimization.recent_search.settings.title"),
-                panelX + 10, panelY + 10, TITLE_COLOR);
+        Gui.drawRect(panelX, panelY, panelX + PANEL_WIDTH, panelY + 1, HIGHLIGHT_BORDER_COLOR);
+        Gui.drawRect(panelX, panelY, panelX + 1, panelY + PANEL_HEIGHT, HIGHLIGHT_BORDER_COLOR);
+        Gui.drawRect(panelX, panelY + PANEL_HEIGHT - 1, panelX + PANEL_WIDTH, panelY + PANEL_HEIGHT, SHADOW_BORDER_COLOR);
+        Gui.drawRect(panelX + PANEL_WIDTH - 1, panelY, panelX + PANEL_WIDTH, panelY + PANEL_HEIGHT, SHADOW_BORDER_COLOR);
+
+        final String title = I18n.translateToLocal("ae2searchoptimization.recent_search.settings.title");
+        final int titleX = panelX + (PANEL_WIDTH - font.getStringWidth(title)) / 2;
+        font.drawString(title, titleX, panelY + 6, TITLE_COLOR);
+        Gui.drawRect(panelX + 8, panelY + 17, panelX + PANEL_WIDTH - 8, panelY + 18, GROUP_SEPARATOR_COLOR);
 
         drawButton(font, panelX, panelY, 0,
                 I18n.translateToLocal(SearchHistoryStore.isEnabled()
@@ -62,18 +72,11 @@ public final class RecentSearchSettingsOverlay {
                         : "ae2searchoptimization.recent_search.button.enabled_off"),
                 mouseX, mouseY);
         drawButton(font, panelX, panelY, 1,
-                I18n.translateToLocal("ae2searchoptimization.recent_search.button.clear"),
-                mouseX, mouseY);
-        drawButton(font, panelX, panelY, 2,
-                toggleText(SearchHistoryStore.isDeleteButtonsEnabled(), "delete_buttons"), mouseX, mouseY);
-        drawButton(font, panelX, panelY, 3,
                 toggleText(SearchHistoryStore.isFavoritesEnabled(), "favorites"), mouseX, mouseY);
-        drawButton(font, panelX, panelY, 4,
+        drawButton(font, panelX, panelY, 2,
                 toggleText(SearchHistoryStore.isKeyboardNavigationEnabled(), "keyboard_navigation"), mouseX, mouseY);
-        drawButton(font, panelX, panelY, 5,
+        drawButton(font, panelX, panelY, 3,
                 toggleText(SearchHistoryStore.isApplyOnClick(), "apply"), mouseX, mouseY);
-        drawButton(font, panelX, panelY, 6,
-                toggleText(SearchHistoryStore.isSyncExternalSearch(), "sync_external"), mouseX, mouseY);
         drawButton(font, panelX, panelY, BACK_ROW,
                 I18n.translateToLocal("gui.back"), mouseX, mouseY);
 
@@ -93,9 +96,9 @@ public final class RecentSearchSettingsOverlay {
             return true;
         }
 
-        final int panelX = (screen.width - PANEL_WIDTH) / 2;
-        final int panelY = (screen.height - PANEL_HEIGHT) / 2;
-        if (!contains(panelX - 4, panelY - 4, PANEL_WIDTH + 8, PANEL_HEIGHT + 8, mouseX, mouseY)) {
+        final int panelX = panelX(screen, access);
+        final int panelY = panelY(screen, access);
+        if (!contains(panelX, panelY, PANEL_WIDTH, PANEL_HEIGHT, mouseX, mouseY)) {
             access.setRecentSearchSettingsOpen(false);
             return true;
         }
@@ -110,22 +113,13 @@ public final class RecentSearchSettingsOverlay {
                     SearchHistoryStore.setEnabled(!SearchHistoryStore.isEnabled());
                     break;
                 case 1:
-                    SearchHistoryStore.clear();
-                    break;
-                case 2:
-                    SearchHistoryStore.setDeleteButtonsEnabled(!SearchHistoryStore.isDeleteButtonsEnabled());
-                    break;
-                case 3:
                     SearchHistoryStore.setFavoritesEnabled(!SearchHistoryStore.isFavoritesEnabled());
                     break;
-                case 4:
+                case 2:
                     SearchHistoryStore.setKeyboardNavigationEnabled(!SearchHistoryStore.isKeyboardNavigationEnabled());
                     break;
-                case 5:
+                case 3:
                     SearchHistoryStore.setApplyOnClick(!SearchHistoryStore.isApplyOnClick());
-                    break;
-                case 6:
-                    SearchHistoryStore.setSyncExternalSearch(!SearchHistoryStore.isSyncExternalSearch());
                     break;
                 case BACK_ROW:
                     access.setRecentSearchSettingsOpen(false);
@@ -154,7 +148,10 @@ public final class RecentSearchSettingsOverlay {
         Gui.drawRect(x, y, x + 1, y + ROW_HEIGHT, BUTTON_BORDER_LIGHT);
         Gui.drawRect(x, y + ROW_HEIGHT - 1, x + ROW_WIDTH, y + ROW_HEIGHT, BUTTON_BORDER_DARK);
         Gui.drawRect(x + ROW_WIDTH - 1, y, x + ROW_WIDTH, y + ROW_HEIGHT, BUTTON_BORDER_DARK);
-        font.drawString(text, x + 6, y + 6, TEXT_COLOR);
+
+        final int textX = x + (ROW_WIDTH - font.getStringWidth(text)) / 2;
+        final int textY = y + (ROW_HEIGHT - 8) / 2;
+        font.drawString(text, textX, textY, hovered ? TEXT_HOVER_COLOR : TEXT_COLOR);
     }
 
     private static String toggleText(final boolean enabled, final String key) {
@@ -164,9 +161,27 @@ public final class RecentSearchSettingsOverlay {
 
     private static int rowY(final int panelY, final int row) {
         if (row == BACK_ROW) {
-            return panelY + PANEL_HEIGHT - ROW_HEIGHT - 10;
+            return panelY + PANEL_HEIGHT - ROW_HEIGHT - 7;
         }
         return panelY + FIRST_ROW_OFFSET + row * (ROW_HEIGHT + ROW_GAP);
+    }
+
+    private static int panelX(final GuiScreen screen, final RecentSearchScreenAccess access) {
+        final int buttonX = access != null ? access.getRecentSearchSettingsButtonX() : -1;
+        if (buttonX >= 0) {
+            final int x = buttonX + 16 + 3;
+            return Math.max(2, Math.min(screen.width - PANEL_WIDTH - 2, x));
+        }
+        return (screen.width - PANEL_WIDTH) / 2;
+    }
+
+    private static int panelY(final GuiScreen screen, final RecentSearchScreenAccess access) {
+        final int buttonY = access != null ? access.getRecentSearchSettingsButtonY() : -1;
+        if (buttonY >= 0) {
+            final int centeredY = buttonY + 8 - PANEL_HEIGHT / 2;
+            return Math.max(2, Math.min(screen.height - PANEL_HEIGHT - 2, centeredY));
+        }
+        return (screen.height - PANEL_HEIGHT) / 2;
     }
 
     private static boolean contains(
