@@ -4,14 +4,16 @@ import net.minecraftforge.common.config.Configuration;
 
 import java.io.File;
 
-/** Client-side performance settings for the tooltip index. */
+/** Client-side performance settings for AE2 search optimizations. */
 public final class AE2SearchOptimizationConfig {
 
     private static final String PERFORMANCE_CATEGORY = "performance";
+    private static final String SEARCH_OPTIMIZATION_ENABLED = "searchOptimizationEnabled";
     private static final String TOOLTIP_INDEX_BUDGET_MILLIS = "tooltipIndexBudgetMillis";
     private static final String RECENT_SEARCH_CATEGORY = "recentSearch";
     private static final String MAX_VISIBLE_RECENT_ENTRIES = "maxVisibleEntries";
 
+    private static boolean searchOptimizationEnabled = true;
     private static int tooltipIndexBudgetMillis = 10;
     private static int maxVisibleRecentEntries = 10;
 
@@ -21,6 +23,12 @@ public final class AE2SearchOptimizationConfig {
     public static void load(final File configFile) {
         final Configuration configuration = new Configuration(configFile);
         configuration.load();
+
+        searchOptimizationEnabled = configuration.getBoolean(
+                SEARCH_OPTIMIZATION_ENABLED,
+                PERFORMANCE_CATEGORY,
+                true,
+                "Enable AE2 search query caching and tooltip indexing optimizations.");
 
         tooltipIndexBudgetMillis = configuration.getInt(
                 TOOLTIP_INDEX_BUDGET_MILLIS,
@@ -41,6 +49,10 @@ public final class AE2SearchOptimizationConfig {
         if (configuration.hasChanged()) {
             configuration.save();
         }
+    }
+
+    public static boolean isSearchOptimizationEnabled() {
+        return searchOptimizationEnabled;
     }
 
     public static long getTooltipIndexBudgetNanos() {

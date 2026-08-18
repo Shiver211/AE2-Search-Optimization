@@ -5,6 +5,7 @@ import appeng.api.config.YesNo;
 import appeng.api.storage.data.IAEItemStack;
 import appeng.core.AEConfig;
 import appeng.util.Platform;
+import com.shiver.ae2searchoptimization.AE2SearchOptimizationConfig;
 import net.minecraft.client.Minecraft;
 
 import java.util.ArrayList;
@@ -36,7 +37,8 @@ public final class TooltipSearchIndex {
     }
 
     public static boolean isEnabled() {
-        return AEConfig.instance().getConfigManager().getSetting(Settings.SEARCH_TOOLTIPS) != YesNo.NO;
+        return AE2SearchOptimizationConfig.isSearchOptimizationEnabled()
+                && AEConfig.instance().getConfigManager().getSetting(Settings.SEARCH_TOOLTIPS) != YesNo.NO;
     }
 
     public static long getGeneration() {
@@ -49,6 +51,10 @@ public final class TooltipSearchIndex {
      * represented by an empty list until the queued main-thread work completes.
      */
     public static List<String> getOrQueue(final Object object) {
+        if (!isEnabled()) {
+            return Platform.getTooltip(object);
+        }
+
         ensureContext();
 
         if (!(object instanceof IAEItemStack)) {
@@ -72,10 +78,11 @@ public final class TooltipSearchIndex {
      * queue is also populated lazily by getOrQueue for newly seen searches.
      */
     public static void queueAll(final Iterable<IAEItemStack> stacks) {
-        ensureContext();
         if (!isEnabled()) {
             return;
         }
+
+        ensureContext();
 
         for (final IAEItemStack stack : stacks) {
             if (stack != null && !CACHE.containsKey(stack) && !PENDING.containsKey(stack)) {
@@ -89,8 +96,12 @@ public final class TooltipSearchIndex {
      * nanoseconds. This method is only called from the client GUI thread.
      */
     public static void process(final long budgetNanos) {
+        if (!isEnabled()) {
+            return;
+        }
+
         ensureContext();
-        if (!isEnabled() || PENDING.isEmpty()) {
+        if (PENDING.isEmpty()) {
             return;
         }
 

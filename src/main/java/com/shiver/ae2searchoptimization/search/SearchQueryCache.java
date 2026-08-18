@@ -1,5 +1,7 @@
 package com.shiver.ae2searchoptimization.search;
 
+import com.shiver.ae2searchoptimization.AE2SearchOptimizationConfig;
+
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
@@ -22,7 +24,8 @@ public final class SearchQueryCache {
     }
 
     public static Pattern compile(final String regex, final int flags) {
-        if (lastPattern != null && lastPatternFlags == flags && regex.equals(lastPatternText)) {
+        final boolean enabled = AE2SearchOptimizationConfig.isSearchOptimizationEnabled();
+        if (enabled && lastPattern != null && lastPatternFlags == flags && regex.equals(lastPatternText)) {
             return lastPattern;
         }
 
@@ -34,20 +37,26 @@ public final class SearchQueryCache {
             compiled = Pattern.compile(Pattern.quote(regex), flags);
         }
 
-        lastPatternText = regex;
-        lastPatternFlags = flags;
-        lastPattern = compiled;
+        if (enabled) {
+            lastPatternText = regex;
+            lastPatternFlags = flags;
+            lastPattern = compiled;
+        }
         return compiled;
     }
 
     public static String[] split(final String value, final String expression) {
-        if (lastSplit != null && value.equals(lastSplitText) && expression.equals(lastSplitExpression)) {
+        final boolean enabled = AE2SearchOptimizationConfig.isSearchOptimizationEnabled();
+        if (enabled && lastSplit != null && value.equals(lastSplitText) && expression.equals(lastSplitExpression)) {
             return lastSplit;
         }
 
-        lastSplitText = value;
-        lastSplitExpression = expression;
-        lastSplit = value.split(expression);
-        return lastSplit;
+        final String[] split = value.split(expression);
+        if (enabled) {
+            lastSplitText = value;
+            lastSplitExpression = expression;
+            lastSplit = split;
+        }
+        return split;
     }
 }

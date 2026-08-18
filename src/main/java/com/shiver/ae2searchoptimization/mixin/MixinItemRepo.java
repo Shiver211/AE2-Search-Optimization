@@ -1,6 +1,7 @@
 package com.shiver.ae2searchoptimization.mixin;
 
 import appeng.client.me.ItemRepo;
+import com.shiver.ae2searchoptimization.AE2SearchOptimizationConfig;
 import com.shiver.ae2searchoptimization.search.SearchQueryCache;
 import com.shiver.ae2searchoptimization.search.TooltipSearchIndex;
 import org.spongepowered.asm.mixin.Mixin;
@@ -28,6 +29,10 @@ public abstract class MixinItemRepo {
 
     @Inject(method = "updateView", at = @At("HEAD"))
     private void ae2searchoptimization$refreshWhenTooltipIndexChanges(final CallbackInfo callbackInfo) {
+        if (!AE2SearchOptimizationConfig.isSearchOptimizationEnabled()) {
+            return;
+        }
+
         final long generation = TooltipSearchIndex.getGeneration();
         if (TooltipSearchIndex.isEnabled()
                 && searchString != null
