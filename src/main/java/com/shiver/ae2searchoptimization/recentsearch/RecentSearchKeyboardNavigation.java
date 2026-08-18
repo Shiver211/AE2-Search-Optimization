@@ -17,6 +17,27 @@ public final class RecentSearchKeyboardNavigation {
     private RecentSearchKeyboardNavigation() {
     }
 
+    public static boolean activateAndMoveSelection(
+            final MEGuiTextField searchField,
+            final int direction) {
+        if (searchField == null
+                || !searchField.getVisible()
+                || !SearchHistoryStore.isEnabled()
+                || !SearchHistoryStore.isKeyboardNavigationEnabled()
+                || SearchHistoryStore.getVisibleEntries().isEmpty()) {
+            return false;
+        }
+
+        clear(searchField);
+        searchField.setFocused(true);
+        if (moveSelection(searchField, direction)) {
+            return true;
+        }
+
+        searchField.setFocused(false);
+        return false;
+    }
+
     public static boolean moveSelection(final MEGuiTextField searchField, final int direction) {
         if (!isNavigationAvailable(searchField)) {
             clear(searchField);

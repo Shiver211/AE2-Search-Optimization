@@ -132,7 +132,16 @@ public abstract class MixinGuiMEMonitorableRecentSearch implements RecentSearchS
             return;
         }
 
-        if (searchField == null || !searchField.isFocused()) {
+        if (searchField == null) {
+            return;
+        }
+
+        if (!searchField.isFocused()) {
+            final int direction = keyCode == Keyboard.KEY_DOWN ? 1 : keyCode == Keyboard.KEY_UP ? -1 : 0;
+            if (direction != 0
+                    && RecentSearchKeyboardNavigation.activateAndMoveSelection(searchField, direction)) {
+                callbackInfo.cancel();
+            }
             return;
         }
 
