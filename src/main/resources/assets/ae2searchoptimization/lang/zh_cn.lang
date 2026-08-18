@@ -1,0 +1,14 @@
+ae2searchoptimization.recent_search.settings.title=最近搜索设置
+ae2searchoptimization.recent_search.button.enabled_on=最近搜索：开
+ae2searchoptimization.recent_search.button.enabled_off=最近搜索：关
+ae2searchoptimization.recent_search.button.delete_buttons_on=删除按钮：开
+ae2searchoptimization.recent_search.button.delete_buttons_off=删除按钮：关
+ae2searchoptimization.recent_search.button.favorites_on=收藏：开
+ae2searchoptimization.recent_search.button.favorites_off=收藏：关
+ae2searchoptimization.recent_search.button.keyboard_navigation_on=键盘导航：开
+ae2searchoptimization.recent_search.button.keyboard_navigation_off=键盘导航：关
+ae2searchoptimization.recent_search.button.apply_on=点击：立即搜索
+ae2searchoptimization.recent_search.button.apply_off=点击：仅填入
+ae2searchoptimization.recent_search.button.sync_external_on=JEI 同步：开
+ae2searchoptimization.recent_search.button.sync_external_off=JEI 同步：关
+ae2searchoptimization.recent_search.button.clear=清空

@@ -1,0 +1,14 @@
+ae2searchoptimization.recent_search.settings.title=Recent Search Settings
+ae2searchoptimization.recent_search.button.enabled_on=Recent: On
+ae2searchoptimization.recent_search.button.enabled_off=Recent: Off
+ae2searchoptimization.recent_search.button.delete_buttons_on=Delete: On
+ae2searchoptimization.recent_search.button.delete_buttons_off=Delete: Off
+ae2searchoptimization.recent_search.button.favorites_on=Favorite: On
+ae2searchoptimization.recent_search.button.favorites_off=Favorite: Off
+ae2searchoptimization.recent_search.button.keyboard_navigation_on=Keyboard: On
+ae2searchoptimization.recent_search.button.keyboard_navigation_off=Keyboard: Off
+ae2searchoptimization.recent_search.button.apply_on=Click: Search
+ae2searchoptimization.recent_search.button.apply_off=Click: Fill
+ae2searchoptimization.recent_search.button.sync_external_on=JEI Sync: On
+ae2searchoptimization.recent_search.button.sync_external_off=JEI Sync: Off
+ae2searchoptimization.recent_search.button.clear=Clear

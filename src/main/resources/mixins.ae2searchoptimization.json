@@ -9,6 +9,11 @@
   "server": [],
   "client": [
     "MixinGuiMEMonitorable",
-    "MixinItemRepo"
+    "MixinItemRepo",
+    "MixinGuiMEMonitorableRecentSearch",
+    "MixinAEBaseGuiRecentSearch",
+    "MixinGuiContainerRecentSearch",
+    "GuiContainerRecentSearchAccess",
+    "GuiScreenRecentSearchAccess"
   ]
 }
