@@ -20,6 +20,7 @@ import java.util.List;
 public final class RecentSearchOverlay {
 
     private static final int PADDING = 2;
+    private static final int TEXT_LEFT_PADDING = 4;
     private static final int ROW_HEIGHT = 12;
     private static final int ACTION_BUTTON_SIZE = 9;
     private static final int BUTTON_GAP = 1;
@@ -229,9 +230,9 @@ public final class RecentSearchOverlay {
             Gui.drawRect(x + 1, rowY, x + width - 1, rowY + ROW_HEIGHT, HOVER_COLOR);
         }
 
-        final int textWidth = Math.max(0, width - 2 * PADDING - layout.textReserveWidth);
+        final int textWidth = Math.max(0, width - TEXT_LEFT_PADDING - PADDING - layout.textReserveWidth);
         final String value = font.trimStringToWidth(entry.getValue(), textWidth);
-        font.drawString(value, x + PADDING, rowY + 2,
+        font.drawString(value, x + TEXT_LEFT_PADDING, rowY + 2,
                 hovered || selected ? TEXT_HOVER_COLOR : TEXT_COLOR);
 
         if (showFavorite) {
@@ -474,7 +475,7 @@ public final class RecentSearchOverlay {
     }
 
     private static int screenX(final MEGuiTextField searchField, final FontRenderer font) {
-        return fieldX(searchField) - 1;
+        return fieldX(searchField);
     }
 
     private static int screenY(final MEGuiTextField searchField, final FontRenderer font) {
@@ -482,7 +483,7 @@ public final class RecentSearchOverlay {
     }
 
     private static int width(final MEGuiTextField searchField, final FontRenderer font) {
-        return Math.max(40, outerFieldWidth(searchField, font) + 8);
+        return outerFieldWidth(searchField, font);
     }
 
     private static int fieldX(final MEGuiTextField searchField) {
